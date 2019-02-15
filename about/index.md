@@ -8,13 +8,13 @@ type: about
 
 > building
 
-## \#About blog
+## \# About blog
 
 > building
 
 > Fork自[Simpleyyt](https://github.com/Simpleyyt/simpleyyt.github.io)
 
-### \# update log：
+### \# Update log：
 
 > 配置文件`_config.yml`
 
