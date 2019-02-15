@@ -4,9 +4,9 @@
 # ---------------------------------------------------------------
 
 # Site
-title: NexT
-subtitle: Live and learn.
-description:
+title: 筑梦人 
+subtitle: kzaopa's blog 
+description: Live and learn.
 author: kzaopa 
 # Support language: de, en, fr-FR, id, ja, ko, pt-BR, pt, ru, zh-Hans, zh-hk, zh-tw
 language: en
@@ -80,7 +80,7 @@ plugins:
 favicon: /assets/favicon.ico
 
 # Set default keywords (Use a comma to separate)
-keywords: "Jekyll, NexT"
+keywords: "Jekyll, NexT, blog, kzaopa"
 
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
@@ -153,8 +153,8 @@ menu_icons:
 # ---------------------------------------------------------------
 
 # Schemes
-#scheme: Muse
-scheme: Mist
+scheme: Muse
+#scheme: Mist
 #scheme: Pisces
 
 
@@ -588,7 +588,7 @@ algolia_search:
 
 # Local search
 local_search:
-  enable: false
+  enable: true 
   # if auto, trigger search by changing input
   # if manual, trigger search by pressing enter key or search button
   trigger: auto
