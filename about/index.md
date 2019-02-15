@@ -1,6 +1,7 @@
 ---
 title: kzaopa's blog
 layout: post
+tag: k
 ---
 
 
