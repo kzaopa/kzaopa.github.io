@@ -27,3 +27,5 @@ type: about
 - \# social:  `侧边链接标签`
 - favicon:  `blog头像设置`
 - since:  `blog底端© 2015 设置`
+- \# Sidebar Avatar `设置头像`
+- favicon:  `设置ico图标`
