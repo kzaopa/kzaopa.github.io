@@ -1,14 +1,6 @@
 ---
-layout: default
+layout: layout
 ---
 
-<article>
-  {% if page.title %}
-  <section class="title">
-    <h2>{{ page.title }} </h2>
-  </section>
-  {% endif %}
-  <section class="post">
-  {{ content }}
-  </section>
-</article>
+{% assign __ = site.data.languages[site.language] %}
+{% include page.html %}
