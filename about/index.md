@@ -3,8 +3,11 @@ layout: page
 type: about
 ---
 
+<<<<<<< b4454453e50d111c02e541b88740005e60db0709
 ## kzaopa's blog
 
+=======
+>>>>>>> update
 ## \#me
 >building
 
