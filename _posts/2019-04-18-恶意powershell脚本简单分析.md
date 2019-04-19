@@ -3,7 +3,7 @@ title: 恶意powershell脚本简单分析
 date: 2019-04-19
 link:
 categories:
-- powershell分析
+- 脚本分析
 tags:
 - powershell
 - 挖矿
