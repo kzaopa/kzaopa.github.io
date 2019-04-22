@@ -6,11 +6,11 @@ type: about
 
 ## \# About me
 
-> building
+> python、php、CNVD通用*10+
 
 ## \# About blog
 
-> building
+> 学习记录、心得
 
 > Fork自[Simpleyyt](https://github.com/Simpleyyt/simpleyyt.github.io)
 
