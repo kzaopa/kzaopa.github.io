@@ -22,4 +22,4 @@ tags:
 - :fire:三级标题内容
 
 ***
-~[]("../pic/pic.jpg")
+![]("../pic/pic.jpg")
