@@ -22,4 +22,4 @@ tags:
 - :fire:三级标题内容
 
 ***
-![image](./2019-02-15-default-page/pic.jpg?raw=true)
+![image](https://github.com/kzaopa/kzaopa.github.io/raw/master/pic/2019-02-15-default-page/pic.jpg)
