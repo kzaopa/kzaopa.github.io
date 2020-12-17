@@ -22,7 +22,5 @@ tags:
 - :fire:三级标题内容
 
 ***
-* 全连接引用
-![image](https://github.com/kzaopa/kzaopa.github.io/raw/master/pic/2019-02-15-default-page/pic.jpg)
 * 绝对路径引用
-![photo](/pic/2019-02-15-default-page/pic.jpg)
+![photo](/images/2019-02-15-default-page/pic.jpg)
