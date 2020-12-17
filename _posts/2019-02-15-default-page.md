@@ -22,4 +22,4 @@ tags:
 - :fire:三级标题内容
 
 ***
-![]("../pic/pic.jpg")
+![image](./2019-02-15-default-page/pic.jpg)
