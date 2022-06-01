@@ -13,15 +13,15 @@
 <meta property="og:site_name" content="筑梦人">
 <meta property="og:description" content="go1234567iGo()&amp;#123;    echo &amp;#x27;GO Environment configuration...&amp;#x27;    wget https:&#x2F;&#x2F;go.dev&#x2F;dl&#x2F;go1.17.9.linux-amd64.tar.gz    tar -C &#x2F;usr&#x2F;local -xzf go1.17.9.linux-amd64.tar.gz    echo &amp;#x27;expo">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://kzaopa.me/2022-06-01-demo/year.jpeg">
+<meta property="og:image" content="http://kzaopa.me/2022/06/01/demo/year.jpeg">
 <meta property="article:published_time" content="2022-06-01T07:48:29.000Z">
-<meta property="article:modified_time" content="2022-06-01T14:31:21.124Z">
+<meta property="article:modified_time" content="2022-06-01T14:35:36.891Z">
 <meta property="article:author" content="kzaopa">
 <meta property="article:tag" content="常用工具">
 <meta property="article:tag" content="bash脚本">
 <meta property="article:tag" content="demo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://kzaopa.me/2022-06-01-demo/year.jpeg">
+<meta name="twitter:image" content="http://kzaopa.me/2022/06/01/demo/year.jpeg">
     
     
       
@@ -155,7 +155,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p><img src="/./2022-06-01-demo/year.jpeg"></p>
+    <p><img src="/./2022/06/01/demo/year.jpeg"></p>
 <h3 id="go"><a href="#go" class="headerlink" title="go"></a>go</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">iGo</span></span>()&#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&#x27;GO Environment configuration...&#x27;</span></span><br><span class="line">    wget https://go.dev/dl/go1.17.9.linux-amd64.tar.gz</span><br><span class="line">    tar -C /usr/local -xzf go1.17.9.linux-amd64.tar.gz</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&#x27;export PATH=$PATH:/usr/local/go/bin&#x27;</span> &gt;&gt; /etc/profile</span><br><span class="line">    <span class="built_in">source</span> /etc/profile</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">iNode</span></span>()&#123;</span><br><span class="line">    <span class="built_in">cd</span> /tmp</span><br><span class="line">    wget https://nodejs.org/dist/v16.15.0/node-v16.15.0-linux-x64.tar.xz</span><br><span class="line">    xz -d node-v16.15.0-linux-x64.tar.xz</span><br><span class="line">    tar -xf node-v16.15.0-linux-x64.tar</span><br><span class="line">    <span class="built_in">mv</span> node-v16.15.0-linux-x64 /opt/node-v16.15.0</span><br><span class="line">    <span class="built_in">ln</span> -s /opt/node-v16.15.0/bin/node /usr/local/bin/node</span><br><span class="line">    <span class="built_in">ln</span> -s /opt/node-v16.15.0/bin/npm /usr/local/bin/npm</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">iDcoker</span></span>()&#123;</span><br><span class="line">    curl -fsSL get.docker.com -o get-docker.sh</span><br><span class="line">    sudo sh get-docker.sh --mirror Aliyun</span><br><span class="line">    <span class="comment"># service docker restart</span></span><br><span class="line">    systemctl restart docker</span><br><span class="line">    sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`<span class="built_in">uname</span> -s`-`<span class="built_in">uname</span> -m` -o /usr/local/bin/docker-compose</span><br><span class="line">    <span class="built_in">chmod</span> +x /usr/local/bin/docker-compose</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
