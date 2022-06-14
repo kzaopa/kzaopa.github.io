@@ -57,7 +57,7 @@
 }
 @media screen and (min-width: 480px) {
   .rtl .post-list .post-item .meta {
-    text-align: left;
+    text-align: right;
   }
 }
 @media screen and (max-width: 480px) {
