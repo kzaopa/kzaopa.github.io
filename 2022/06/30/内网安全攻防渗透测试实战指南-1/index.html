@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="第1章 内网渗透测试基础1.1 内网基础知识内网也指局域网（Local Area Network, LAN），是指在某一区域内由多台计算机互连而成的计算机组，组网范围通常在数千米以内。  1.1.1 工作组工作组（Work Group），将不同的计算机按功能（或部门）分别列入不同的工作组，例如技术部的计算机都列入”技术部”工作组、行政部的计算机都列入”行政部”工作组。如果输入的工作组的名称在网络中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网安全攻防渗透测试实战指南-1">
+<meta property="og:url" content="http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/index.html">
+<meta property="og:site_name" content="商见曜">
+<meta property="og:description" content="第1章 内网渗透测试基础1.1 内网基础知识内网也指局域网（Local Area Network, LAN），是指在某一区域内由多台计算机互连而成的计算机组，组网范围通常在数千米以内。  1.1.1 工作组工作组（Work Group），将不同的计算机按功能（或部门）分别列入不同的工作组，例如技术部的计算机都列入”技术部”工作组、行政部的计算机都列入”行政部”工作组。如果输入的工作组的名称在网络中">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/builtin.png">
+<meta property="og:image" content="http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/users.png">
+<meta property="article:published_time" content="2022-06-30T14:21:35.000Z">
+<meta property="article:modified_time" content="2022-07-05T12:58:33.136Z">
+<meta property="article:author" content="kzaopa">
+<meta property="article:tag" content="内网安全">
+<meta property="article:tag" content="内网渗透">
+<meta property="article:tag" content="域">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/builtin.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>内网安全攻防渗透测试实战指南-1</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Archives</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/06/24/powershell%E4%BA%86%E8%A7%A3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&text=内网安全攻防渗透测试实战指南-1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&is_video=false&description=内网安全攻防渗透测试实战指南-1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=内网安全攻防渗透测试实战指南-1&body=Check out this article: http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&name=内网安全攻防渗透测试实战指南-1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&t=内网安全攻防渗透测试实战指南-1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC1%E7%AB%A0-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">第1章 内网渗透测试基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%86%85%E7%BD%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.0.1.</span> <span class="toc-text">1.1 内网基础知识</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        内网安全攻防渗透测试实战指南-1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">kzaopa</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-06-30T14:21:35.000Z" itemprop="datePublished">2022 Jun 30</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8/" rel="tag">内网安全</a>, <a class="tag-link-link" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" rel="tag">内网渗透</a>, <a class="tag-link-link" href="/tags/%E5%9F%9F/" rel="tag">域</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="第1章-内网渗透测试基础"><a href="#第1章-内网渗透测试基础" class="headerlink" title="第1章 内网渗透测试基础"></a>第1章 内网渗透测试基础</h2><h4 id="1-1-内网基础知识"><a href="#1-1-内网基础知识" class="headerlink" title="1.1 内网基础知识"></a>1.1 内网基础知识</h4><p>内网也指局域网（<code>Local Area Network, LAN</code>），是指在某一区域内由多台计算机互连而成的计算机组，组网范围通常在数千米以内。</p>
+<ul>
+<li><p>1.1.1 工作组<br>工作组（<code>Work Group</code>），将不同的计算机按功能（或部门）分别列入不同的工作组，例如技术部的计算机都列入”技术部”工作组、行政部的计算机都列入”行政部”工作组。如果输入的工作组的名称在网络中不存在，就相当于新建了一个工作组（当然，暂时只有当前这台计算机在工作组内）。工作组没有集中管理作用，工作组里的所有计算机都是对等的（没有服务器和客户机之分）。</p>
+</li>
+<li><p>1.1.2 域<br><strong>域</strong>（<code>Domain</code>）是一个有安全边界的计算机集合（安全边界的意思是：在两个域中，一个域中的用户无法访问另一个域中的资源）。<br><strong>域控制器</strong>（<code>Domain Controller, DC</code>）是域中的一台类似管理服务器的计算机，我们可以形象地将它理解为一个单位的门禁系统。域控制器中存在由这个域的账号、密码、属于这个域的计算机等信息构成的数据库。</p>
+<ul>
+<li>1.单域<br>在一个域内，一般要有至少两台域服务器，一台作为<code>DC</code>，另一台作为备份<code>DC</code>。</li>
+<li>2.父域和子域<br>由于管理及其他需求，需要在网络中划分多个域。第一个域成为父域，各分部的域称为该域的子域。</li>
+<li>3.域树<br>域树（<code>Tree</code>）是多个域通过建立信任关系组成的集合。一个域管理员只能管理本域，不能访问或者管理其他域。如果两个域之间需要互相访问，则需要建立信任关系（<code>Trust Relation</code>）。<br>在一个域树中，父域可以包含多个子域。子域是相对父域来说的，指的是域名中的每一个段。各子域之间用点号隔开，一个”.”代表一个层次。</li>
+<li>4.域森林<br>域森林（<code>Forest</code>）是指多个域树通过建立信任关系组成的集合。</li>
+<li>5.域名服务器<br>域名服务器（<code>Domain Name Server, DNS</code>）是指用于实现域名（<code>Domain Name</code>）和与之相对应的<code>IP</code>地址（<code>IP Address</code>）转换的服务器。<br>内网渗透测试中，大都是通过寻找<code>DNS</code>服务器来确定域控制器的位置的（<code>DNS</code>服务器和域控制器通常配置在同一台机器上）。</li>
+</ul>
+</li>
+<li><p>1.1.3 活动目录<br><strong>活动目录</strong>（<code>Active Directory, AD</code>）是指域环境中提供目录服务的组件。活动目录存储的是网络中所有资源的快捷方式，用户可以通过寻找快捷方式来定位资源。<br>在活动目录中，管理员不需要考虑被管理对象的地理位置，只需要按照一定的方式将这些对象放置在不同的容器中。这种不考虑被管理对象的具体地理位置的组织框架称为逻辑结构。活动目录的逻辑结构包括前面讲过的<strong>组织单元（<code>OU</code>）、域、域树、域森林</strong>。域树内的所有域共享一个活动目录，这个活动目录内的数据分散存储在各个域中，且每个域只存储该域内的数据。<br>活动目录主要提供以下功能（活动目录是微软提供的统一管理基础平台，<code>ISA</code>、<code>Exchange</code>、<code>EMS</code>等都依赖这个平台。）：</p>
+<ul>
+<li>账号集中管理</li>
+<li>软件集中管理</li>
+<li>环境集中管理</li>
+<li>增强安全性</li>
+<li>更可靠，更短的宕机时间</li>
+</ul>
+</li>
+<li><p>1.1.4 域控制器和活动目录的区别<br>如果网络规模较大，就要把网络中的众多对象，例如计算机、用户、用户组、打印机、共享文件等，分门别类、井然有序地放在一个大仓库中，并将检索信息整理好，以便查找、管理和使用这些对象（资源）。<strong>这个拥有层次结构的数据库，就是活动目录数据库简称<code>AD</code>库。</strong><br>要实现域环境，其实就是要安装<code>AD</code>。如果内网中的一台计算机上安装了<code>AD</code>，它就变成了<code>DC</code>（用于存储活动目录数据库的计算机）。</p>
+</li>
+<li><p>1.1.5 安全域的划分<br><code>DMZ</code>成为隔离区，是为了解决安装防火墙后外部网络不能访问内部网络服务器的问题而设立的一个非安全系统与安全系统之间的缓冲区。<br><code>DMZ</code>常用访问控制策略：内网可以访问外网、内网可以访问<code>DMZ</code>、外网不可以访问内网、外网可以访问<code>DMZ</code>、<code>DMZ</code>不能访问内网、<code>DMZ</code>不能访问外网。 内网可以分为办公区和核心区。</p>
+</li>
+<li><p>1.1.6 域中计算机的分类<br>在域结构的网络中，计算机的身份是不平等的，有<strong>域控制器、成员服务器、客户机、独立服务器</strong>四种类型。<br><strong>1.域控制器</strong> 域控制器用于管理所有的网络访问，包括登录服务器、访问共享目录和资源（可以有多台计算机被配置为域控制器）。<br><strong>2.成员服务器</strong> 成员服务器是指安装了服务器操作系统并加入了域、但没有安装活动目录的计算机，其主要任务是提供网络资源。<br><strong>3.客户机</strong> 域中的计算机可以是安装了其他操作系统的计算机，用户利用这些计算机和域中的账户就可以登录域。<br><strong>4.独立服务器</strong> 独立服务器和域没有关系。<br>域控制器用于存放活动目录数据库，是域中必须要有的，而其它三种计算机则不是必须要有的。</p>
+</li>
+<li><p>1.1.7 域内权限解读<br>组（<code>Group</code>）是用户账号的集合。通过向一组用户分配权限，就可以不必向每个用户分别分配权限。<br><strong>1.域本地组</strong> 多域用户访问单域资源（访问同一个域），可以从任何域添加用户账号、通用组和全局组，但只能在其所在的域内指派权限。域本地组不能嵌套在其他组中。<br><strong>2.全局组</strong> 单域用户访问多域资源（必须是同一个域中的用户），只能在创建该全局组的域中添加用户和全局组。可以在域森林的任何域内指派权限。全局组可以嵌套在其他组中。<br><strong>3.通用组</strong> 通用组的成员来自域森林中任何域的用户账号、全局组和其他通用组，可以在该域森林的任何域中指派权限，可以嵌套在其他组中，非常适合在域森林内的跨域访问中使用。可以这样简单的记忆：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">域本地组来自全林，作用于本域；</span><br><span class="line">全局组来自本域，作用于全林；</span><br><span class="line">通用组来自全林，作用于全林；</span><br></pre></td></tr></table></figure>
+<p><strong>4.A-G-DL-P策略</strong> A-G-DL-P策略是指将用户账号添加到全局组中，将全局组添加到域本地组中，然后为域本地分配资源权限。</p>
+<ul>
+<li><code>A</code>表示用户账号（<code>Account</code>）</li>
+<li><code>G</code>表示全局组（<code>Global Group</code>）</li>
+<li><code>U</code>表示通用组（<code>Universal Group</code>）</li>
+<li><code>DL</code>表示域本地组（<code>Domain Local Group</code>）</li>
+<li><code>P</code>表示资源权限（<code>Permission</code>，许可）<br>在安装域控制器时，系统会自动生成一些组，成为内置组。”<code>Active Directory</code>用户和计算机”控制台窗口的”<code>Builtin</code>“和”<code>Users</code>“组织单元中的组就是内置组，内置的域本地组在”<code>Builtin</code>“组织单元中。<br><img src="/./2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/builtin.png"><br>内置的全局组和通用组在”Users”组织单元中。<br><img src="/./2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/users.png"><br>下面介绍几个比较重要的域本地组权限。<br><strong>管理员组</strong> （<code>Administrators</code>）的成员可以不受限制地存取计算机&#x2F;域的资源。它不仅是最具权力的一个组，也是在活动目录和域控制器中默认具有管理员权限的组。该组的成员可以更改<code>Enterprise Admins</code>、<code>Schema Admins</code>和<code>Domain Admins</code>组的成员关系，是域森林中强大的服务管理组。<br><strong>远程登录组</strong> （<code>Remote Desktop Users</code>）的成员具有远程登录权限。<br><strong>打印机操作员组</strong> （<code>PrintOperators</code>）的成员可以管理网络打印机，包括建立、管理及删除网络打印机，并可以在本地登录和关闭域控制器。<br><strong>账号操作员组</strong> （<code>Account Operators</code>）的成员可以创建和管理该域中的用户和组并为其设置权限，也可以在本地登录域控制器，但是，不能更改属于<code>Administrators</code>或<code>Domain Admins</code>组的账户，也不能修改这些组。在默认情况下，该组中没有成员。<br><strong>服务器操作员组</strong> （<code>ServerOperators</code>）的成员可以管理域服务器，其权限包括建立&#x2F;管理&#x2F;删除任意服务器的共享目录、管理网络打印机、备份任何服务器的文件、格式化服务器硬盘、锁定服务器、变更服务器的系统时间、关闭域控制器等。在默认情况下，该组中没有成员。<br><strong>备份操作员组</strong> （<code>BackupOperators</code>）的成员可以在域控制器中执行备份和还原操作，并可以在本地登录和关闭域控制器。在默认情况下，该组中没有成员。<br><strong>域管理员组</strong> （<code>DomainAdmins</code>）的成员在所有加入域的服务器(工作站)、域控制器和活动目录中均默认拥有完整的管理员权限。因为该组会被添加到自己所在域的<code>Administrators</code>组中，因此可以继承<code>Administrators</code>组的所有权限。同时，该组默认会被添加到每台域成员计算机的本地<code>Administrators</code>组中，这样，<code>Domain Admins</code>组就获得了域中所有计算机的所有权。如果希望某用户成为域系统管理员，建议将该用户添加到<code>Domain Admins</code>组中，而不要直接将该用户添加到<code>Administrators</code>组中。<br><strong>企业系统管理员组</strong> （<code>Enterprise Admins</code>）是域森林根域中的一个组。该组在域森林中的每个域内都是<code>Administrators</code>组的成员，因此对所有域控制器都有完全访问权。<br><strong>架构管理员组</strong> （<code>Schema Admins</code>）是域森林根域中的一个组，可以修改活动目录和域森林的模式。该组是为活动目录和域控制器提供完整权限的域用户组，因此，该组成员的资格是非常重要的。<br><strong>域用户组</strong> （<code>Domain Users</code>）中是所有的域成员。在默认情况下，任何由我们建立的用户账号都属于Domain Users组，而任何由我们建立的计算机账号都属于Domain Computers组。因此，如果想让所有的账号都获得某种资源存取权限，可以将该权限指定给域用户组，或者让城用户组属于具有该权限的组。域用户组默认是内置域<code>Users</code>组的成员。</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Archives</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC1%E7%AB%A0-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">第1章 内网渗透测试基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%86%85%E7%BD%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.0.1.</span> <span class="toc-text">1.1 内网基础知识</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&text=内网安全攻防渗透测试实战指南-1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&is_video=false&description=内网安全攻防渗透测试实战指南-1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=内网安全攻防渗透测试实战指南-1&body=Check out this article: http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&title=内网安全攻防渗透测试实战指南-1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&name=内网安全攻防渗透测试实战指南-1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://kzaopa.me/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/&t=内网安全攻防渗透测试实战指南-1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2022
+    kzaopa
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Archives</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
