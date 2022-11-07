@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="第2章 内网信息收集2.1 内网信息收集概述我是谁？ ————对当前机器角色的判断。这是哪？ ————对当前机器所处网络环境的拓扑结构进行分析和判断。我在哪？ ————对当前机器所处区域的判断。 2.2 收集本机信息 2.2.1 手动收集信息本机信息包括操作系统、权限、内网IP地址段、杀毒软件、端口、服务、补丁更新频率、网络连接、共享、会话等。如果是域内主机，操作系统、应用软件、补丁、服务、杀毒软">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网安全攻防渗透测试实战指南-2">
+<meta property="og:url" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/index.html">
+<meta property="og:site_name" content="商见曜">
+<meta property="og:description" content="第2章 内网信息收集2.1 内网信息收集概述我是谁？ ————对当前机器角色的判断。这是哪？ ————对当前机器所处网络环境的拓扑结构进行分析和判断。我在哪？ ————对当前机器所处区域的判断。 2.2 收集本机信息 2.2.1 手动收集信息本机信息包括操作系统、权限、内网IP地址段、杀毒软件、端口、服务、补丁更新频率、网络连接、共享、会话等。如果是域内主机，操作系统、应用软件、补丁、服务、杀毒软">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/user.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/admin.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/domain.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/sid.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/win7-test.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/ipconfig.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/nslookup.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/systeminfo.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/net_config.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/jujue.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/workgroup.png">
+<meta property="og:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/domain_user.png">
+<meta property="article:published_time" content="2022-09-20T12:40:13.000Z">
+<meta property="article:modified_time" content="2022-11-07T10:06:23.798Z">
+<meta property="article:author" content="kzaopa">
+<meta property="article:tag" content="内网渗透">
+<meta property="article:tag" content="内网信息收集">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/user.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>内网安全攻防渗透测试实战指南-2</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Archives</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/06/30/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-1/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&text=内网安全攻防渗透测试实战指南-2"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&is_video=false&description=内网安全攻防渗透测试实战指南-2"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=内网安全攻防渗透测试实战指南-2&body=Check out this article: http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&name=内网安全攻防渗透测试实战指南-2&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&t=内网安全攻防渗透测试实战指南-2"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC2%E7%AB%A0-%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">第2章 内网信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">2.1 内网信息收集概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%94%B6%E9%9B%86%E6%9C%AC%E6%9C%BA%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.</span> <span class="toc-text">2.2 收集本机信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%9F%A5%E8%AF%A2%E5%BD%93%E5%89%8D%E6%9D%83%E9%99%90"><span class="toc-number">1.3.</span> <span class="toc-text">2.3 查询当前权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E5%9F%9F"><span class="toc-number">1.4.</span> <span class="toc-text">2.4 判断是否存在域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E6%8E%A2%E6%B5%8B%E5%9F%9F%E5%86%85%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA"><span class="toc-number">1.5.</span> <span class="toc-text">2.5 探测域内存活主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E6%89%AB%E6%8F%8F%E5%9F%9F%E5%86%85%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.6.</span> <span class="toc-text">2.6 扫描域内端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-%E6%94%B6%E9%9B%86%E5%9F%9F%E5%86%85%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF"><span class="toc-number">1.7.</span> <span class="toc-text">2.7 收集域内基础信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-%E6%9F%A5%E6%89%BE%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.8.</span> <span class="toc-text">2.8 查找域控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-%E8%8E%B7%E5%8F%96%E5%9F%9F%E5%86%85%E7%9A%84%E7%94%A8%E6%88%B7%E5%92%8C%E7%AE%A1%E7%90%86%E5%91%98%E4%BF%A1%E6%81%AF"><span class="toc-number">1.9.</span> <span class="toc-text">2.9 获取域内的用户和管理员信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-9-1-%E6%9F%A5%E8%AF%A2%E6%89%80%E6%9C%89%E5%9F%9F%E7%94%A8%E6%88%B7%E5%88%97%E8%A1%A8"><span class="toc-number">1.9.1.</span> <span class="toc-text">2.9.1 查询所有域用户列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-9-2-%E6%9F%A5%E8%AF%A2%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E7%BB%84"><span class="toc-number">1.9.2.</span> <span class="toc-text">2.9.2 查询域管理员用户组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-10-%E5%AE%9A%E4%BD%8D%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98"><span class="toc-number">1.10.</span> <span class="toc-text">2.10 定位域管理员</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-10-1-%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98%E5%AE%9A%E4%BD%8D%E6%A6%82%E8%BF%B0"><span class="toc-number">1.10.1.</span> <span class="toc-text">2.10.1 域管理员定位概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-10-2-%E5%B8%B8%E7%94%A8%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98%E5%AE%9A%E4%BD%8D%E5%B7%A5%E5%85%B7"><span class="toc-number">1.10.2.</span> <span class="toc-text">2.10.2 常用域管理员定位工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-11-%E6%9F%A5%E6%89%BE%E5%9F%9F%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.11.</span> <span class="toc-text">2.11 查找域管理进程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-11-1-%E6%9C%AC%E6%9C%BA%E6%A3%80%E6%9F%A5"><span class="toc-number">1.11.1.</span> <span class="toc-text">2.11.1 本机检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-11-2-%E6%9F%A5%E8%AF%A2%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%9F%9F%E7%94%A8%E6%88%B7%E4%BC%9A%E8%AF%9D"><span class="toc-number">1.11.2.</span> <span class="toc-text">2.11.2 查询域控制器的域用户会话</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-11-3-%E6%9F%A5%E8%AF%A2%E8%BF%9C%E7%A8%8B%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E8%BF%90%E8%A1%8C%E7%9A%84%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.11.3.</span> <span class="toc-text">2.11.3 查询远程操作系统中运行的任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-11-4-%E6%89%AB%E6%8F%8F%E8%BF%9C%E7%A8%8B%E7%B3%BB%E7%BB%9F%E5%AF%B9%E7%9A%84netbios%E4%BF%A1%E6%81%AF"><span class="toc-number">1.11.4.</span> <span class="toc-text">2.11.4 扫描远程系统对的netbios信息</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-14-%E5%9F%9F%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7BloodHound"><span class="toc-number">1.12.</span> <span class="toc-text">2.14 域分析工具BloodHound</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        内网安全攻防渗透测试实战指南-2
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">kzaopa</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-09-20T12:40:13.000Z" itemprop="datePublished">2022 Sep 20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" rel="tag">内网信息收集</a>, <a class="tag-link-link" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" rel="tag">内网渗透</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="第2章-内网信息收集"><a href="#第2章-内网信息收集" class="headerlink" title="第2章 内网信息收集"></a>第2章 内网信息收集</h2><h3 id="2-1-内网信息收集概述"><a href="#2-1-内网信息收集概述" class="headerlink" title="2.1 内网信息收集概述"></a>2.1 内网信息收集概述</h3><p><strong>我是谁？</strong> ————对当前机器角色的判断。<br><strong>这是哪？</strong> ————对当前机器所处网络环境的拓扑结构进行分析和判断。<br><strong>我在哪？</strong> ————对当前机器所处区域的判断。</p>
+<h3 id="2-2-收集本机信息"><a href="#2-2-收集本机信息" class="headerlink" title="2.2 收集本机信息"></a>2.2 收集本机信息</h3><ul>
+<li>2.2.1 手动收集信息<br>本机信息包括操作系统、权限、内网<code>IP</code>地址段、杀毒软件、端口、服务、补丁更新频率、网络连接、共享、会话等。如果是域内主机，操作系统、应用软件、补丁、服务、杀毒软件一般都是批量安装的。<ul>
+<li>查询网络配置信息<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ipconfig</span> /all</span><br></pre></td></tr></table></figure></li>
+<li>查询操作系统及软件信息<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">查询操作系统和版本信息</span><br><span class="line">systeminfo |<span class="built_in">findstr</span> /B /C:&quot;OS 名称&quot; /C:&quot;OS 版本&quot;</span><br><span class="line">查看系统体系结构</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">%PROCESSOR_ARCHITECTURE%</span></span><br><span class="line">查看安装的软件及版本、路径等</span><br><span class="line">wmic product get name,version</span><br><span class="line">或</span><br><span class="line">powershell &quot;Get-WmiObject -class Win32_Product | Select-Object -Property name,version&quot;</span><br></pre></td></tr></table></figure></li>
+<li>查询本机服务信息<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wmic service list brief</span><br></pre></td></tr></table></figure></li>
+<li>查询进程列表<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tasklist /svc</span><br><span class="line">或</span><br><span class="line">wmic process list brief</span><br></pre></td></tr></table></figure></li>
+<li>查看启动程序信息<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wmic startup get command,caption</span><br></pre></td></tr></table></figure></li>
+<li>查看计划任务<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schtasks /query /fo list /v</span><br></pre></td></tr></table></figure></li>
+<li>查看主机开机时间<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net statistics workstation</span><br></pre></td></tr></table></figure></li>
+<li>查询用户列表<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">net user</span><br><span class="line">获取本地管理员（通常包含域用户）信息</span><br><span class="line">net localgroup administrators</span><br><span class="line">查看当前在线用户</span><br><span class="line">query user || qwinsta</span><br></pre></td></tr></table></figure></li>
+<li>列出或断开本地计算机与所连接的客户端之间的会话<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net session</span><br></pre></td></tr></table></figure></li>
+<li>查询端口列表<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano</span><br></pre></td></tr></table></figure></li>
+<li>查看补丁列表<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systeminfo</span><br><span class="line">或</span><br><span class="line">wmic qfe get caption,description,hotfixid,installedon</span><br></pre></td></tr></table></figure></li>
+<li>查询本机共享列表<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net share</span><br><span class="line">或</span><br><span class="line">wmic share get name,path,status</span><br></pre></td></tr></table></figure></li>
+<li>查询路由表及所有可用的ARP缓存表<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">route print</span><br><span class="line">arp -a</span><br></pre></td></tr></table></figure></li>
+<li>查询防火墙相关配置<br><strong>关闭防火墙</strong><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">windows server 2003及之前的版本，命令如下。</span><br><span class="line">netsh firewall set option disable</span><br><span class="line">windows server 2003之后的版本，命令如下。</span><br><span class="line">netsh advfirewall set allprofiles state off</span><br></pre></td></tr></table></figure>
+<strong>查看防火墙配置</strong><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh firewall show config</span><br></pre></td></tr></table></figure>
+<strong>修改防火墙配置</strong><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">windows server 2003及之前的版本，允许指定程序全部链接，命令如下。</span><br><span class="line">netsh firewall add allowdprogram c:\nc.exe &quot;allow nc&quot; enable</span><br><span class="line">windows server 2003之后的版本，情况如下：</span><br><span class="line">netsh advfirewall firewall add rule name=&quot;pass nc&quot; dir=in action=allow program=&quot;C: \nc.exe&quot;</span><br><span class="line">允许指定程序退出，命令如下。</span><br><span class="line">netsh advfirewall firewall add rule name=&quot;Allow nc&quot; dir=out action=allow program=&quot;C: \nc.exe&quot;</span><br><span class="line">允许3389端口放行，命令如下。</span><br><span class="line">netsh advfirewall firewall add rule name=&quot;Remote Desktop&quot; protocol=TCP dir=in localport=3389 action=allow</span><br><span class="line">自定义防火墙日志的存储位置</span><br><span class="line">netsh advfirewall set currentprofile logging filename &quot;C:\windows\temp\fw.log&quot;</span><br></pre></td></tr></table></figure></li>
+<li>查看代理配置情况<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg query &quot;HKEY_CURRENT_UESR\Software\Microsoft\Windows\CurrentVersion\Internet Settings&quot;</span><br></pre></td></tr></table></figure></li>
+<li>查询并开启远程连接服务<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在命令行环境中执行注册表查询语句，命令如下。</span><br><span class="line">reg query &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /V PortNumber</span><br><span class="line">在windows server 2003中开启3389端口</span><br><span class="line">wmic path win32_terminalservicesetting where (__CLASS !=&quot;&quot;) call setallowtsconnections 1</span><br><span class="line">在windows server 2008和windows server 2012中开启3389端口</span><br><span class="line">wmic /namespace:\\root\cimv2\terminalservices path win32_terminalservicesetting where (__CLASS !=&quot;&quot;) call setallowtsconnections 1</span><br><span class="line">wmic /namespace:\\root\cimv2\terminalservices path win32_tsgeneralsetting where (TerminalName=&#x27;RDP-Tcp&#x27;) call setuserauthenticationrequired 1</span><br><span class="line">reg add &quot;HKLM\SYSTEM\CURRENT\CONTROLSET\CONTROL\TERMINAL SERVER&quot; /v fSingleSessionPerUser /t REG_DWORD /d 0 /f</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>2.2.2 自动收集信息<br>执行该脚本后，会将所有结果写入一个HTML文件。<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> /f &quot;delims=&quot; <span class="variable">%%A</span> <span class="keyword">in</span> (&#x27;<span class="built_in">dir</span> /s /b <span class="variable">%WINDIR%</span>\system32\*htable.xsl&#x27;) <span class="keyword">do</span> <span class="built_in">set</span> &quot;var=<span class="variable">%%A</span>&quot;</span><br><span class="line"></span><br><span class="line">wmic process get CSName,Description,ExecutablePath,ProcessId /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic service get Caption,Name,PathName,ServiceType,Started,StartMode,StartName /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic USERACCOUNT list full /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic group list full /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic nicconfig where IPEnabled=&#x27;true&#x27; get Caption,DefaultIPGateway,Description,DHCPEnabled,DHCPServer,IPAddress,IPSubnet,MACAddress /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic volume get <span class="built_in">Label</span>,DeviceID,DriveLetter,FileSystem,Capacity,FreeSpace /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic netuse list full /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic qfe get Caption,Description,HotFixID,InstalledOn /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic startup get Caption,Command,Location,User /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic PRODUCT get Description,InstallDate,InstallLocation,PackageCache,Vendor,Version /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic os get name,version,InstallDate,LastBootUpTime,LocalDateTime,Manufacturer,RegisteredUser,ServicePackMajorVersion,SystemDirectory /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br><span class="line">wmic Timezone get DaylightName,Description,StandardName /<span class="built_in">format</span>:&quot;<span class="variable">%var%</span>&quot; &gt;&gt; out.html</span><br></pre></td></tr></table></figure></li>
+<li>2.2.3 Empire下的主机信息收集<br>官方库：<code>https://github.com/EmpireProject/Empire</code><br>下载：<a target="_blank" rel="noopener" href="https://github.com/EmpireProject/Empire/archive/refs/tags/2.5.zip">Empire-2.5.zip</a></li>
+</ul>
+<h3 id="2-3-查询当前权限"><a href="#2-3-查询当前权限" class="headerlink" title="2.3 查询当前权限"></a>2.3 查询当前权限</h3><ol>
+<li>查看当前权限</li>
+</ol>
+<ul>
+<li>获取一台主机的权限后，有如下三种情况：<br>本地普通用户<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/user.png"><br>本地管理用户<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/admin.png"><br>域内用户<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/domain.png"></li>
+</ul>
+<ol start="2">
+<li>获取域SID<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/sid.png"></li>
+<li>查询指定用户的详细信息<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/win7-test.png"></li>
+</ol>
+<h3 id="2-4-判断是否存在域"><a href="#2-4-判断是否存在域" class="headerlink" title="2.4 判断是否存在域"></a>2.4 判断是否存在域</h3><ol>
+<li>使用ipconfig命令<br>执行如下命令，可以查看网关IP地址、DNS的IP地址、域名、本机是否和DNS服务器处于同一网段等信息。<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/ipconfig.png"><br>用nslookup来解析域名的IP地址<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/nslookup.png"></li>
+<li>查看系统详细信息<br>如果”域”为”WORKGROUP”，表示当前服务器不在域内。<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/systeminfo.png"></li>
+<li>查询当前登录域及登录用户信息<br>“工作站域DNS名称”既域名（如果为”WORKGROUP”，表示当前环境为非域环境），”登录域”用于表示当前登录的用户是域用户还是本地用户，此处表示当前登录的用户是域用户。<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/net_config.png"></li>
+<li>判断主域<br>判断主域（域服务器通常会同时作为时间服务器使用），通常有如下三种情况。<br>存在域，但当前用户不是域用户。<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/jujue.png"><br>当前网络环境为工作组，不存在域。<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/workgroup.png"><br>存在域，且当前用户是域用户。<br><img src="/./2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/domain_user.png"></li>
+</ol>
+<h3 id="2-5-探测域内存活主机"><a href="#2-5-探测域内存活主机" class="headerlink" title="2.5 探测域内存活主机"></a>2.5 探测域内存活主机</h3><ul>
+<li><p>2.5.1 利用NetBIOS快速探测内网<br>nbtscan是一个命令行工具，用于扫描本地或远程TCP&#x2F;IP网络上的开放NetBIOS名称服务器。</p>
+</li>
+<li><p>2.5.2 利用ICMP协议快速探测内网</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> /L %I <span class="keyword">in</span> (<span class="number">1</span>,<span class="number">1</span>,<span class="number">254</span>) <span class="keyword">DO</span> @<span class="built_in">ping</span> -w <span class="number">1</span> -n <span class="number">1</span> <span class="number">192</span>.<span class="number">168</span>.<span class="number">1</span>.%I | <span class="built_in">findstr</span> &quot;TTL=&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.5.3 通过ARP扫描探测内网</p>
+<ol>
+<li>arp-scan工具</li>
+<li>EMpire中的arpscan模块</li>
+<li>Nishang中的Invoke-ARPScan.ps1脚本</li>
+</ol>
+</li>
+<li><p>2.5.4 通过常规TCP&#x2F;UDP端口扫描探测内网<br>ScanLine</p>
+</li>
+</ul>
+<h3 id="2-6-扫描域内端口"><a href="#2-6-扫描域内端口" class="headerlink" title="2.6 扫描域内端口"></a>2.6 扫描域内端口</h3><p>需要关注：</p>
+<ol>
+<li>端口的Banner信息 </li>
+<li>端口上运行的服务 </li>
+<li>常见应用的默认端口</li>
+</ol>
+<ul>
+<li>2.6.1 利用telnet命令进行扫描</li>
+<li>2.6.2 S扫描器</li>
+<li>2.6.3 Metasploit端口扫描</li>
+<li>2.6.4 PowerSploit的Invoke-portscan.ps1脚本</li>
+<li>2.6.5 Nishang的Invoke-PortScan模块</li>
+<li>2.6.6 端口Banner信息</li>
+</ul>
+<h3 id="2-7-收集域内基础信息"><a href="#2-7-收集域内基础信息" class="headerlink" title="2.7 收集域内基础信息"></a>2.7 收集域内基础信息</h3><ol>
+<li>查询域<br>net view &#x2F;domain</li>
+<li>查询域内所有计算机<br>net view &#x2F;domain:hacker</li>
+<li>查询域内所有计算机<br>net group &#x2F;domain</li>
+<li>查询所有域成员计算机列表<br>net group “domain computers” &#x2F;domain</li>
+<li>获取域密码信息<br>net accounts &#x2F;domain</li>
+<li>获取域信任信息<br>nltest &#x2F;domain_trusts</li>
+</ol>
+<h3 id="2-8-查找域控制器"><a href="#2-8-查找域控制器" class="headerlink" title="2.8 查找域控制器"></a>2.8 查找域控制器</h3><ol>
+<li>查看域控制器的机器名<br>nltest &#x2F;DCLIST:hacker</li>
+<li>查看域控制器的主机名<br>nslookup -type&#x3D;SRV _ldap._tcp</li>
+<li>查看当前时间<br>net time &#x2F;domain</li>
+<li>查看域控制器组<br>net group “domain controllers” &#x2F;domain</li>
+<li>域内存在多域查看主域控<br>netdom query pdc</li>
+</ol>
+<h3 id="2-9-获取域内的用户和管理员信息"><a href="#2-9-获取域内的用户和管理员信息" class="headerlink" title="2.9 获取域内的用户和管理员信息"></a>2.9 获取域内的用户和管理员信息</h3><h4 id="2-9-1-查询所有域用户列表"><a href="#2-9-1-查询所有域用户列表" class="headerlink" title="2.9.1 查询所有域用户列表"></a>2.9.1 查询所有域用户列表</h4><ol>
+<li>向域控制器进行查询<br>net user &#x2F;domain</li>
+<li>获取域内用户的详细信息<br>wmic useraccount get &#x2F;all</li>
+<li>查看存在的用户<br>dsquery user<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">常用的dsquery命令</span><br><span class="line">dsquery computer - 查找目录中的计算机。</span><br><span class="line">dsquery contact - 查找目录中的联系人，</span><br><span class="line">dsquery subnet - 查找目录中的子网。</span><br><span class="line">dsquery group - 查找目录中的组。</span><br><span class="line">dsquery ou - 查找目录中的组织单位。</span><br><span class="line">dsquery site - 查找目录中的站点。</span><br><span class="line">dsquery server - 查找目录中的 AD DC/LDS 实例。</span><br><span class="line">dsquery user - 查找目录中的用户</span><br><span class="line">dsquery quota - 查找目录中的配额规定。</span><br><span class="line">dsquery partition - 查找目录中的分区</span><br><span class="line">dsquery * - 用通用的 LDAP 查询来查找目录中的任何对象</span><br></pre></td></tr></table></figure></li>
+<li>查询本地管理员组用户<br>net localgroup administrators</li>
+</ol>
+<h4 id="2-9-2-查询域管理员用户组"><a href="#2-9-2-查询域管理员用户组" class="headerlink" title="2.9.2 查询域管理员用户组"></a>2.9.2 查询域管理员用户组</h4><ol>
+<li>查询域管理员用户<br>net group “domain admins” &#x2F;domain</li>
+<li>查询域管理员用户组<br>net group “enterprise admins” &#x2F;domain</li>
+</ol>
+<h3 id="2-10-定位域管理员"><a href="#2-10-定位域管理员" class="headerlink" title="2.10 定位域管理员"></a>2.10 定位域管理员</h3><h4 id="2-10-1-域管理员定位概述"><a href="#2-10-1-域管理员定位概述" class="headerlink" title="2.10.1 域管理员定位概述"></a>2.10.1 域管理员定位概述</h4><p>在域网络攻击测试中，获取域内的一个支点后，需要获取域管理员权限。<br>在一个域中，当计算机加人域后，会默认给域管理员组赋子本地系统管理员权限。也就是说，当计算机被添加到域中，成为域的成员主机后，系统会自动将域管理员组添加到本地系统管理员组中。 因此，域管理员组的成员均可访问本地计算机，且具备完全控制权限。<br>定位域内管理员的常规渠道，一是日志，二是会话。日志是指本地机器的管理员日志，可以使用脚本或 Wevtutil 工具导出并查看。会话是指域内每台机器的登录会话，可以使用 nesess.exe 或 PowerView 等工具查询（可以圈名查询，不需要权限）。</p>
+<h4 id="2-10-2-常用域管理员定位工具"><a href="#2-10-2-常用域管理员定位工具" class="headerlink" title="2.10.2 常用域管理员定位工具"></a>2.10.2 常用域管理员定位工具</h4><ol>
+<li>psloggedon.exe</li>
+<li>pvefindaduser.exe</li>
+<li>netview.exe</li>
+<li>nmap的NSE脚本</li>
+<li>powerview脚本</li>
+<li>Empire的user_hunter模块</li>
+</ol>
+<h3 id="2-11-查找域管理进程"><a href="#2-11-查找域管理进程" class="headerlink" title="2.11 查找域管理进程"></a>2.11 查找域管理进程</h3><p>在渗透测试中，一个典型的域权限提升过程，通常围绕着收集明文凭据或者通过mimikaz提权等方法，在获取了管理员权限的系统中寻找域管理员登录进程，进而收集域管理员的凭据。如果内网环境非常复杂，渗透测试人员无法立即在拥有权限的系统中获得域管理员进程，那么通常可以采用的方法是：在跳板机之间跳转，直至获得域管理员权限，同时进行一些分析工作，进而找到渗透测试的路径。</p>
+<h4 id="2-11-1-本机检查"><a href="#2-11-1-本机检查" class="headerlink" title="2.11.1 本机检查"></a>2.11.1 本机检查</h4><ol>
+<li>获取域管理员列表<br>net group “domain admins” &#x2F;domain</li>
+<li>列出本机的所有进程及进程用户<br>tasklist &#x2F;v</li>
+</ol>
+<h4 id="2-11-2-查询域控制器的域用户会话"><a href="#2-11-2-查询域控制器的域用户会话" class="headerlink" title="2.11.2 查询域控制器的域用户会话"></a>2.11.2 查询域控制器的域用户会话</h4><ol>
+<li>查询域控制器列表<br>net group “domain controllers” &#x2F;domain</li>
+<li>收集域管理员列表<br>net group “domain admins” &#x2F;domain</li>
+<li>收集所有活动的会话列表<br>netsess -h</li>
+<li>交叉引用域管理员列表与活动会话列表</li>
+</ol>
+<h4 id="2-11-3-查询远程操作系统中运行的任务"><a href="#2-11-3-查询远程操作系统中运行的任务" class="headerlink" title="2.11.3 查询远程操作系统中运行的任务"></a>2.11.3 查询远程操作系统中运行的任务</h4><h4 id="2-11-4-扫描远程系统对的netbios信息"><a href="#2-11-4-扫描远程系统对的netbios信息" class="headerlink" title="2.11.4 扫描远程系统对的netbios信息"></a>2.11.4 扫描远程系统对的netbios信息</h4><h3 id="2-14-域分析工具BloodHound"><a href="#2-14-域分析工具BloodHound" class="headerlink" title="2.14 域分析工具BloodHound"></a>2.14 域分析工具BloodHound</h3><p>Bloouitornd 是一款免费的工具。一方面，Bloodltound 通过图与线的形式，将城内用户、计算机、组、会话、ACL，以及城内所有的相关用户、组、计算机、登录信息、访问控制策略之间的关系，直观地展现在Red Team 成员面前，为他们更便捷地分析域内情况、更快速地在域内提供权限提供条件。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Archives</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC2%E7%AB%A0-%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">第2章 内网信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%86%85%E7%BD%91%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">2.1 内网信息收集概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%94%B6%E9%9B%86%E6%9C%AC%E6%9C%BA%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.</span> <span class="toc-text">2.2 收集本机信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%9F%A5%E8%AF%A2%E5%BD%93%E5%89%8D%E6%9D%83%E9%99%90"><span class="toc-number">1.3.</span> <span class="toc-text">2.3 查询当前权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E5%9F%9F"><span class="toc-number">1.4.</span> <span class="toc-text">2.4 判断是否存在域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E6%8E%A2%E6%B5%8B%E5%9F%9F%E5%86%85%E5%AD%98%E6%B4%BB%E4%B8%BB%E6%9C%BA"><span class="toc-number">1.5.</span> <span class="toc-text">2.5 探测域内存活主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E6%89%AB%E6%8F%8F%E5%9F%9F%E5%86%85%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.6.</span> <span class="toc-text">2.6 扫描域内端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-%E6%94%B6%E9%9B%86%E5%9F%9F%E5%86%85%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF"><span class="toc-number">1.7.</span> <span class="toc-text">2.7 收集域内基础信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-%E6%9F%A5%E6%89%BE%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.8.</span> <span class="toc-text">2.8 查找域控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-%E8%8E%B7%E5%8F%96%E5%9F%9F%E5%86%85%E7%9A%84%E7%94%A8%E6%88%B7%E5%92%8C%E7%AE%A1%E7%90%86%E5%91%98%E4%BF%A1%E6%81%AF"><span class="toc-number">1.9.</span> <span class="toc-text">2.9 获取域内的用户和管理员信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-9-1-%E6%9F%A5%E8%AF%A2%E6%89%80%E6%9C%89%E5%9F%9F%E7%94%A8%E6%88%B7%E5%88%97%E8%A1%A8"><span class="toc-number">1.9.1.</span> <span class="toc-text">2.9.1 查询所有域用户列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-9-2-%E6%9F%A5%E8%AF%A2%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E7%BB%84"><span class="toc-number">1.9.2.</span> <span class="toc-text">2.9.2 查询域管理员用户组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-10-%E5%AE%9A%E4%BD%8D%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98"><span class="toc-number">1.10.</span> <span class="toc-text">2.10 定位域管理员</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-10-1-%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98%E5%AE%9A%E4%BD%8D%E6%A6%82%E8%BF%B0"><span class="toc-number">1.10.1.</span> <span class="toc-text">2.10.1 域管理员定位概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-10-2-%E5%B8%B8%E7%94%A8%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98%E5%AE%9A%E4%BD%8D%E5%B7%A5%E5%85%B7"><span class="toc-number">1.10.2.</span> <span class="toc-text">2.10.2 常用域管理员定位工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-11-%E6%9F%A5%E6%89%BE%E5%9F%9F%E7%AE%A1%E7%90%86%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.11.</span> <span class="toc-text">2.11 查找域管理进程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-11-1-%E6%9C%AC%E6%9C%BA%E6%A3%80%E6%9F%A5"><span class="toc-number">1.11.1.</span> <span class="toc-text">2.11.1 本机检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-11-2-%E6%9F%A5%E8%AF%A2%E5%9F%9F%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%9F%9F%E7%94%A8%E6%88%B7%E4%BC%9A%E8%AF%9D"><span class="toc-number">1.11.2.</span> <span class="toc-text">2.11.2 查询域控制器的域用户会话</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-11-3-%E6%9F%A5%E8%AF%A2%E8%BF%9C%E7%A8%8B%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%AD%E8%BF%90%E8%A1%8C%E7%9A%84%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.11.3.</span> <span class="toc-text">2.11.3 查询远程操作系统中运行的任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-11-4-%E6%89%AB%E6%8F%8F%E8%BF%9C%E7%A8%8B%E7%B3%BB%E7%BB%9F%E5%AF%B9%E7%9A%84netbios%E4%BF%A1%E6%81%AF"><span class="toc-number">1.11.4.</span> <span class="toc-text">2.11.4 扫描远程系统对的netbios信息</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-14-%E5%9F%9F%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7BloodHound"><span class="toc-number">1.12.</span> <span class="toc-text">2.14 域分析工具BloodHound</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&text=内网安全攻防渗透测试实战指南-2"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&is_video=false&description=内网安全攻防渗透测试实战指南-2"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=内网安全攻防渗透测试实战指南-2&body=Check out this article: http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&title=内网安全攻防渗透测试实战指南-2"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&name=内网安全攻防渗透测试实战指南-2&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://kzaopa.me/2022/09/20/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8%E6%94%BB%E9%98%B2%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97-2/&t=内网安全攻防渗透测试实战指南-2"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2022
+    kzaopa
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Archives</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

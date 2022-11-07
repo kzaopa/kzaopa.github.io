@@ -832,13 +832,13 @@ body {
   padding-right: 2rem;
   max-width: 20em;
   max-height: calc(95vh - 7rem);
-  text-align: right;
+  text-align: left;
 }
 #header-post #toc a:hover {
   color: #2bbc8a;
 }
 #header-post #toc .toc-level-1 > .toc-link {
-  display: none;
+  display: auto;
 }
 #header-post #toc .toc-level-2 {
   color: #363533;
